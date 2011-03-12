@@ -49,6 +49,9 @@ function gerlv_social_block($op = 'list', $delta = 0, $edit = array()) {
         case 'view':
             switch ($delta) {
                 case 'all_plugins': 
+                    if(arg(0) != 'node' && !is_numeric(arg(1))) {
+                        return array('content' => false);
+                    }
                     return array(
                         'subject' => 'Share it',
                         'content' => theme('gerlv_social_all_plugins')
