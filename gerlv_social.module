@@ -7,6 +7,9 @@ function gerlv_social_theme() {
         'gerlv_social_like' => array(
             'arguments' => array('url' => false)
         ),
+        'gerlv_social_all_plugins' => array(
+            'arguments' => array('url' => false)
+        )
     );
 }
 
@@ -24,4 +27,32 @@ tweetmeme_source = \'gerlv\';
 tweetmeme_service = \'bit.ly\';
 </script>
 <script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js"></script>';
+}
+
+function theme_gerlv_social_all_plugins() {
+    return '
+    <div class="social-media-item">'.theme('gerlv_social_like').'</div>
+    <div class="social-media-item">'.theme('gerlv_social_retweet').'</div>
+    <div class="clear zero">&nbsp;</div>
+    ';
+}
+
+function gerlv_social_block($op = 'list', $delta = 0, $edit = array()) {
+    switch($op) {
+        case 'list':
+            return array(
+                'all_plugins' => array(
+                    'info' => 'Social Media items',
+                    'weight' => 5,
+                )
+            );
+        case 'view':
+            switch ($delta) {
+                case 'all_plugins': 
+                    return array(
+                        'subject' => 'Share it',
+                        'content' => theme('gerlv_social_all_plugins')
+                    );
+            }
+    }
 }
