@@ -8,31 +8,35 @@ function gerlv_social_theme() {
             'arguments' => array('url' => false)
         ),
         'gerlv_social_all_plugins' => array(
-            'arguments' => array('url' => false)
+            'arguments' => array('url' => false, 'tweetmeme_source' => false)
         )
     );
 }
 
 function theme_gerlv_social_like($url = false) {
     if(!$url) {
-        $url = check_plain(request_uri());
+        $url = (($_SERVER["HTTPS"])?"https://":"http://").$_SERVER["SERVER_NAME"]."/". check_plain(request_uri());
     }
     $url = urlencode($url);
     return '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url.'&amp;layout=box_count&amp;show_faces=false&amp;width=450&amp;action=recommend&amp;font&amp;colorscheme=light&amp;height=65" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:65px;" allowTransparency="true"></iframe>';
 }
 
-function theme_gerlv_social_retweet() {
+function theme_gerlv_social_retweet($source = false) {
+    if($source) {
+        
+    } 
+    $tweetmeme_source = ($source) ? "tweetmeme_source = '{$source}';" : "";
     return '<script type="text/javascript">
-tweetmeme_source = \'gerlv\';
+'.$tweetmeme_source.'
 tweetmeme_service = \'bit.ly\';
 </script>
 <script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js"></script>';
 }
 
-function theme_gerlv_social_all_plugins() {
+function theme_gerlv_social_all_plugins($url = false, $tweetmeme_source = false) {
     return '
-    <div class="social-media-item">'.theme('gerlv_social_like').'</div>
-    <div class="social-media-item">'.theme('gerlv_social_retweet').'</div>
+    <div class="social-media-item">'.theme('gerlv_social_like', $url).'</div>
+    <div class="social-media-item">'.theme('gerlv_social_retweet', $tweetmeme_source).'</div>
     <div class="clear zero">&nbsp;</div>
     ';
 }
@@ -42,7 +46,7 @@ function gerlv_social_block($op = 'list', $delta = 0, $edit = array()) {
         case 'list':
             return array(
                 'all_plugins' => array(
-                    'info' => 'Social Media items',
+                    'info' => 'ger.lv Social Media items',
                     'weight' => 5,
                 )
             );
