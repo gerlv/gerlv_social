@@ -1,0 +1,7 @@
+Social media templates functions for Drupal 6.x
+==============================
+
+Module for Drupal 6.x which contains tempaltes for social media functions.
+Currently following functions implemented:
+    * Twitter Retweet (from TweetMeme) button
+    * Facebook Like/Recommend button
